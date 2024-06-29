@@ -1,4 +1,4 @@
-import useListener from ".";
+import useListener, { ListenerHandler } from ".";
 
 type M1 = {
     num: number,
@@ -7,8 +7,8 @@ type M1 = {
 
 type M2 = string;
 
-const handler = useListener<M1>("myTopic");
-const handler2 = useListener<M2>("myTopic2");
+const handler: ListenerHandler<M1> = useListener<M1>("myTopic");
+const handler2: ListenerHandler<M2> = useListener<M2>("myTopic2");
 const unsub1 = handler.subscribe((m) => console.log("[SUB #1]", m));
 const unsub2 = handler.subscribe((m) => console.log("[SUB #2]", m));
 const unsub3 = handler2.subscribe((m) => console.log("[SUB #3]", m));
@@ -25,5 +25,3 @@ handler2.publish("Hello this is message 6");
 unsub1();
 handler.publish({ num: 3, text: "Hello this is message 7"});
 handler2.publish("Hello this is message 8");
-
-

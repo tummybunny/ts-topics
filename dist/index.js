@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = useListener;
 const allTopics = new Map();
 function useListener(topic) {
     const h = allTopics.get(topic);
@@ -32,4 +33,3 @@ function useListener(topic) {
         return h;
     }
 }
-exports.default = useListener;

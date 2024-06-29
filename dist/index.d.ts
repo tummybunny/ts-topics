@@ -1,10 +1,9 @@
-type Topic = string | symbol | number;
-type Message<T extends object = any> = T | string | number;
-type Subscriber<Message> = (m: Message) => void;
-type UnsubscribeHandler = () => void;
-type ListenerHandler<T extends Message> = {
+export type Topic = string | symbol | number;
+export type Message<T extends object = any> = T | string | number;
+export type Subscriber<Message> = (m: Message) => void;
+export type UnsubscribeHandler = () => void;
+export type ListenerHandler<T extends Message> = {
     publish: (m: T) => void;
     subscribe: (s: Subscriber<T>) => UnsubscribeHandler;
 };
-declare function useListener<Message>(topic: Topic): ListenerHandler<Message>;
-export default useListener;
+export default function useListener<Message>(topic: Topic): ListenerHandler<Message>;

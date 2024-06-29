@@ -1,19 +1,19 @@
-type Topic = string | symbol | number;
+export type Topic = string | symbol | number;
 
-type Message<T extends object = any> = T | string | number;
+export type Message<T extends object = any> = T | string | number;
 
-type Subscriber<Message> = (m: Message) => void;
+export type Subscriber<Message> = (m: Message) => void;
 
-type UnsubscribeHandler = () => void;
+export type UnsubscribeHandler = () => void;
 
-type ListenerHandler<T extends Message> = {
+export type ListenerHandler<T extends Message> = {
     publish: (m: T) => void,
     subscribe: (s: Subscriber<T>) => UnsubscribeHandler
 }
 
 const allTopics = new Map<Topic, ListenerHandler<Message>>();
 
-function useListener<Message>(topic: Topic): ListenerHandler<Message> {
+export default function useListener<Message>(topic: Topic): ListenerHandler<Message> {
     const h = allTopics.get(topic);
     if (!h) {
         var subId = 1;
@@ -42,5 +42,3 @@ function useListener<Message>(topic: Topic): ListenerHandler<Message> {
         return h as ListenerHandler<Message>;
     }
 }
-
-export default useListener;
