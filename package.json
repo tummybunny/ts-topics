@@ -1,0 +1,23 @@
+{
+  "name": "ts-topics",
+  "version": "1.0.0",
+  "description": "Simple message pub sub",
+  "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "compile": "tsc -w"
+  },
+  "author": "Alexander Koentjara",
+  "devDependencies": {
+    "typescript": "^5.5.2"
+  }
+}
