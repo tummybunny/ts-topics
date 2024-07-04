@@ -16,7 +16,10 @@ const allTopics = new Map<Topic, ListenerHandler<Message>>();
 export default function useListener<Message>(topic: Topic): ListenerHandler<Message> {
     const h = allTopics.get(topic);
     if (!h) {
-        var subId = 1;
+        // I don't expect the number of active subscribers will exceed Number.MAX_SAFE_INTEGER, i.e. 2^53-1 (9,7 quadrillion)
+        // before subId overflows...
+        // looping 9,7 quadrillion times in single-threaded JS would poise an issue in itself...
+        var subId = 1;  
         const subscribers = new Map<number, Subscriber<Message>>();
         const h: ListenerHandler<Message> = {
             subscribe: (sub: Subscriber<Message>) => {
