@@ -2,6 +2,11 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = useListener;
 const allTopics = new Map();
+/**
+ *
+ * @param topic
+ * @returns
+ */
 function useListener(topic) {
     const h = allTopics.get(topic);
     if (!h) {
