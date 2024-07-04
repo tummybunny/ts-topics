@@ -17,7 +17,7 @@ export default function useListener<Message>(topic: Topic): ListenerHandler<Mess
     const h = allTopics.get(topic);
     if (!h) {
         var subId = 1;
-        const subscribers = new Map<number, Subscriber<any>>();
+        const subscribers = new Map<number, Subscriber<Message>>();
         const h: ListenerHandler<Message> = {
             subscribe: (sub: Subscriber<Message>) => {
                 const newSubId = ++subId;
@@ -39,6 +39,6 @@ export default function useListener<Message>(topic: Topic): ListenerHandler<Mess
         allTopics.set(topic, h);
         return h;
     } else {
-        return h as ListenerHandler<Message>;
+        return h;
     }
 }
