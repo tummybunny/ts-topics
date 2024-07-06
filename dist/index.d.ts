@@ -5,11 +5,11 @@ export type Topic = string | symbol | number;
 /**
  * Represent a message that publisher(s) would publish and subscriber(s) would consume.
  */
-export type Message<T extends object = any> = T | string | number;
+export type Message<T extends object = any> = T | string | number | symbol;
 /**
  * Represent a Subscriber which will receive a Message when publisher(s) publish it.
  */
-export type Subscriber<Message> = (m: Message) => void;
+export type Subscriber<T extends Message> = (m: T) => void;
 /**
  * A function that a Subscriber should call to unsubscribe itself from a Topic.
  * Must be called otherwise it can cause memory leak.
@@ -39,4 +39,4 @@ export type ListenerHandler<T extends Message> = {
  * @param topic
  * @returns
  */
-export default function useListener<Message>(topic: Topic): ListenerHandler<Message>;
+export default function useListener<T extends Message>(topic: Topic): ListenerHandler<T>;

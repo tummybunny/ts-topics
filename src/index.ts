@@ -6,12 +6,12 @@ export type Topic = string | symbol | number;
 /**
  * Represent a message that publisher(s) would publish and subscriber(s) would consume.
  */
-export type Message<T extends object = any> = T | string | number;
+export type Message<T extends object = any> = T | string | number | symbol;
 
 /**
  * Represent a Subscriber which will receive a Message when publisher(s) publish it.
  */
-export type Subscriber<Message> = (m: Message) => void;
+export type Subscriber<T extends Message> = (m: T) => void;
 
 /**
  * A function that a Subscriber should call to unsubscribe itself from a Topic.
@@ -47,23 +47,23 @@ const allTopics = new Map<Topic, ListenerHandler<Message>>();
  * @param topic 
  * @returns 
  */
-export default function useListener<Message>(topic: Topic): ListenerHandler<Message> {
+export default function useListener<T extends Message>(topic: Topic): ListenerHandler<T> {
     const h = allTopics.get(topic);
     if (!h) {
         // I don't expect the number of active subscribers will exceed Number.MAX_SAFE_INTEGER, i.e. 2^53-1 (9,7 quadrillion)
         // before subId overflows...
         // looping 9,7 quadrillion times in single-threaded JS would poise an issue in itself...
         var subId = 1;  
-        const subscribers = new Map<number, Subscriber<Message>>();
-        const h: ListenerHandler<Message> = {
-            subscribe: (sub: Subscriber<Message>) => {
+        const subscribers = new Map<number, Subscriber<T>>();
+        const h: ListenerHandler<T> = {
+            subscribe: (sub: Subscriber<T>) => {
                 const newSubId = ++subId;
                 subscribers.set(newSubId, sub);
                 return () => {
                     subscribers.delete(newSubId);
                 }
             },
-            publish: (m: Message) => {
+            publish: (m: T) => {
                 subscribers.forEach((sub, subId) => {
                     try {
                         sub(m);
